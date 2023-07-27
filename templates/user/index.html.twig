@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <div class="text-center my-5">
+    <h1 class="my-4">Gestion des membres </h1>
+    <div class="alert alert-info">Vous trouverez ci-dessous le tableau contenant l'ensemble des membres</div>
+
+    {% for message in app.flashes('success') %}
+        <div class="col-md-5 mx-auto alert alert-success text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <a href="{{ path('app_user_new') }}" class="btn btn-dark">Créer un nouvel utilisateur</a>
+</div>    
+
+    <table class="table table-bordered table-striped table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Pseudo</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Civilite</th>
+                <th>Statut</th>
+                <th>Date d'enregistrement</th>
+                <th>Voir</th>
+                <th>Editer</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                 {# {% for role in user.roles %}
+                <td>{{ role }}</td>
+                {% endfor %} #}
+                {# <td>{{ user.password }}</td> #}
+                <td>{{ user.pseudo }}</td>
+                {# <td>{{ user.mdp }}</td> #}
+                <td>{{ user.nom }}</td>
+                <td>{{ user.prenom }}</td>
+                <td>{{ user.civilite }}</td>
+                <td>{{ user.statut }}</td>
+                <td>{{ user.dateEnregistrement ? user.dateEnregistrement|date('Y-m-d H:i:s') : '' }}</td>
+                <td><a href="{{path('app_user_show', {"id": user.id}) }}" class="btn btn-info"><i class="fa-solid fa-eye"></i></a></td>
+                <td><a href="{{path('app_user_edit', {"id": user.id})}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                <td><a href="{{path('app_user_delete', {"id": user.id})}}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<a href="{{path('app_admin')}}" class="btn btn-dark mt-3">Retour au backoffice</a>
+    
+{% endblock %}

@@ -1,0 +1,65 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande index{% endblock %}
+
+{% block body %}
+    <div class="text-center my-5">
+    <h1 class="my-4">Gestion des commandes </h1>
+    <div class="alert alert-info">Vous trouverez ci-dessous le tableau contenant l'ensemble des commandes</div>
+
+    {% for message in app.flashes('success') %}
+        <div class="col-md-5 mx-auto alert alert-success text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <a href="{{ path('app_user_new') }}" class="btn btn-dark">Créer une nouvelle commande</a>
+</div>    
+
+    <table class="table table-bordered table-striped table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Commande</th>
+                <th>Membre</th>
+                <th>Véhicule</th>
+                <th>Date et heure de départ</th>
+                <th>Date et heure de fin</th>
+                <th>Prix total</th>
+                <th>Date d'enregistrement</th>
+                <th>Voir</th>
+                <th>Editer</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commande in commandes %}
+            <tr>
+                <td>{{ commande.id }}</td>
+                <td>{{commande.user.nom}} {{commande.user.prenom}} - {{commande.user.email}}</td>
+                <td>{{commande.vehicule.marque}} - {{commande.vehicule.modele}}</td>
+                <td>{{ commande.dateHeureDepart ? commande.dateHeureDepart|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ commande.dateHeureFin ? commande.dateHeureFin|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ commande.prixTotal }}</td>
+                <td>{{ commande.dateEnregistrement ? commande.dateEnregistrement|date('Y-m-d H:i:s') : '' }}</td>
+                
+                     <td><a href="{{path('app_commande_show', {"id": commande.id}) }}" class="btn btn-info"><i class="fa-solid fa-eye"></i></a></td>
+                    <td><a href="{{path('app_commande_edit', {"id": commande.id})}}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                    <td><a href="{{path('app_commande_delete', {"id": commande.id})}}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a></td>
+                
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{path('app_admin')}}" class="btn btn-dark mt-3">Retour au backoffice</a>
+{% endblock %}
+
+
+
+
+
